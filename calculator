@@ -1,0 +1,62 @@
+import tkinter as tk
+from tkinter import messagebox
+
+# Function to calculate and display shipping cost and declaration value
+def calculate_shipping():
+    country = country_var.get().lower()
+
+    if country == "canada":
+        # Display declaration value for Canada
+        messagebox.showinfo("Shipping Calculator", "The Declaration Is $14")
+    elif country == "any european country":
+        # Ask for tariffless shipping option
+        tariffless = messagebox.askyesno("Shipping Calculator", "Shipping with tariffless?")
+        if tariffless:
+            # Display declaration value for European countries with tariffless shipping
+            messagebox.showinfo("Shipping Calculator", "Declare Your Package as 16 - 21")
+        else:
+            # Ask for weight of package in kilograms
+            weight = float(weight_entry.get())
+            # Calculate declaration value for European countries with tariffs
+            declaration = weight * 12
+            messagebox.showinfo("Shipping Calculator", "The Declaration Is ${:.2f}".format(declaration))
+    elif country in ["north america", "usa", "canada", "mexico"]:
+        # Ask for weight of package in kilograms
+        weight = float(weight_entry.get())
+        # Calculate declaration value for North American countries
+        declaration = weight * 12
+        messagebox.showinfo("Shipping Calculator", "The Declaration Is ${:.2f}".format(declaration))
+    elif country == "any oceana country":
+        # Ask for weight of package in kilograms
+        weight = float(weight_entry.get())
+        # Calculate declaration value for Oceana countries
+        declaration = weight * 12
+        messagebox.showinfo("Shipping Calculator", "The Declaration Is ${:.2f}".format(declaration))
+    else:
+        messagebox.showerror("Shipping Calculator", "Invalid input. Please try again.")
+
+# Create main window
+root = tk.Tk()
+root.title("Shipping Calculator")
+
+# Create country selection label and dropdown menu
+country_label = tk.Label(root, text="Country:")
+country_label.grid(row=0, column=0, padx=10, pady=10)
+country_var = tk.StringVar(root)
+country_var.set("Select Country")
+country_options = ["Canada", "Any European Country", "North America", "Any Oceana Country"]
+country_dropdown = tk.OptionMenu(root, country_var, *country_options)
+country_dropdown.grid(row=0, column=1, padx=10, pady=10)
+
+# Create weight entry label and entry box
+weight_label = tk.Label(root, text="Weight (kg):")
+weight_label.grid(row=1, column=0, padx=10, pady=10)
+weight_entry = tk.Entry(root)
+weight_entry.grid(row=1, column=1, padx=10, pady=10)
+
+# Create calculate button
+calculate_button = tk.Button(root, text="Calculate", command=calculate_shipping)
+calculate_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
+
+# Start the main event loop
+root.mainloop()
